@@ -81,3 +81,7 @@ const playaudio = (a) => {
         audio_player[audio_index].play();
     }
 };
+
+// Time
+const startTime = new Date();
+const time = () => ((new Date()) - startTime) / 1000;

@@ -33,7 +33,7 @@ class Game {
     
     update_render() {
         // Clear screen
-        this.ctx.fillStyle = "#FFFEC4";
+        this.ctx.fillStyle = "#C8E4B2";
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
         this.fish.render(this.ctx);
