@@ -83,9 +83,9 @@ class Fish {
         // tail
         ctx.beginPath();
         ctx.moveTo(cos * 8.5, 0 + 23);
-        ctx.quadraticCurveTo(cos * 5.5, 25, cos * 28.5 + 4.0, 40 + (1.0 - sin) * 7.0);
+        ctx.quadraticCurveTo(cos * 10.5, 25, cos * 28.5 + 4.0, 40 + (1.0 - sin) * 6.0);
         ctx.moveTo(cos * 8.5, 0 + 23);
-        ctx.quadraticCurveTo(cos * 5.5, 25, cos * 20.5, 37 + (1.0 - sin) * 7.0);
+        ctx.quadraticCurveTo(cos * 10.5, 25, cos * 20.5, 37 + (1.0 - sin) * 6.0);
         ctx.stroke();
         ctx.closePath();
 
@@ -118,6 +118,7 @@ class Fish {
 
     turn(val) {
         this.rot += val;
-        this.thurst(.2);
+        this.cspeed *= .92;
+        this.thurst(.4);
     }
 }
