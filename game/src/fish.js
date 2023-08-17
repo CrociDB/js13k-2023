@@ -24,16 +24,41 @@ class Fish {
         let cos = Math.cos(time() * speed) * Math.pow(this.cspeed, 2);
 
         ctx.fillStyle = "#7EAA92";
+        ctx.strokeStyle = "#7EAA92";
+        ctx.lineWidth = 7;
+        ctx.lineCap = "round";
+
         // big central circle
         ctx.beginPath();
-        ctx.arc(sin * 4.5, 0 - 10, 19, 0, 2 * Math.PI, false);
-        ctx.arc(sin * 2.5, 0 - 20, 17, 0, 2 * Math.PI, false);
+        ctx.arc(sin * 4.5, 0 - 10, 17, 0, 2 * Math.PI, false);
+        ctx.arc(sin * 2.5, 0 - 20, 15, 0, 2 * Math.PI, false);
         ctx.fill();
         ctx.closePath();
+
+        // side fins
+        ctx.beginPath(); // right
+        ctx.moveTo(sin * 4.5 + 12, -12);
+        ctx.quadraticCurveTo(sin * 4.5 + 30, 10, sin * 4.5 + 12, -9);
+        ctx.stroke();
+        ctx.closePath();
+
+        ctx.beginPath(); // left
+        ctx.moveTo(sin * 4.5 - 12, -12);
+        ctx.quadraticCurveTo(sin * 4.5 - 30, 10, sin * 4.5 - 12, -9);
+        ctx.stroke();
+        ctx.closePath();
+
         
         // head
+        // ctx.beginPath();
+        // ctx.arc(0, -35, 13, 0, 2 * Math.PI, false);
+        // ctx.fill();
+        // ctx.closePath();
+
         ctx.beginPath();
-        ctx.arc(0, 0 - 35, 12, 0, 2 * Math.PI, false);
+        ctx.moveTo(-13, -25);
+        ctx.quadraticCurveTo(cos * 4.5, -65 + sin * 2.0, 13, -25);
+        ctx.lineTo(-13, -25);
         ctx.fill();
         ctx.closePath();
         
@@ -46,7 +71,7 @@ class Fish {
         
         // tail body
         ctx.beginPath();
-        ctx.arc(cos * 6.5, 0 + 20, 13, 0, 2 * Math.PI, false);
+        ctx.arc(cos * 6.5, 0 + 20, 12, 0, 2 * Math.PI, false);
         ctx.arc(cos * 8.5, 0 + 25, 9, 0, 2 * Math.PI, false);
         ctx.fill();
         ctx.closePath();
@@ -56,9 +81,6 @@ class Fish {
         ctx.closePath();
         
         // tail
-        ctx.strokeStyle = "#7EAA92";
-        ctx.lineWidth = 7;
-        ctx.lineCap = "round";
         ctx.beginPath();
         ctx.moveTo(cos * 8.5, 0 + 23);
         ctx.quadraticCurveTo(cos * 5.5, 25, cos * 28.5 + 4.0, 40 + (1.0 - sin) * 7.0);
