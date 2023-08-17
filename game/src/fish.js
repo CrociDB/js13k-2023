@@ -20,17 +20,52 @@ class Fish {
 
         let speed = 15;
 
-        ctx.fillStyle = "#7EAA92";
-        ctx.beginPath();
-        ctx.arc(Math.sin(time() * speed) * Math.pow(this.cspeed, 3) * 3.5, 0 - 10, 20, 0, 2 * Math.PI, false);
-        ctx.fill();
-        ctx.arc(0, 0 - 30, 15, 0, 2 * Math.PI, false);
-        ctx.fill();
-        ctx.arc(0, 0 + 10, 15, 0, 2 * Math.PI, false);
-        ctx.fill();
+        let sin = Math.sin(time() * speed) * Math.pow(this.cspeed, 2);
+        let cos = Math.cos(time() * speed) * Math.pow(this.cspeed, 2);
 
-        ctx.arc(Math.cos(time() * speed) * Math.pow(this.cspeed, 3) * 8.5, 0 + 25, 10, 0, 2 * Math.PI, false);
+        ctx.fillStyle = "#7EAA92";
+        // big central circle
+        ctx.beginPath();
+        ctx.arc(sin * 4.5, 0 - 10, 19, 0, 2 * Math.PI, false);
+        ctx.arc(sin * 2.5, 0 - 20, 17, 0, 2 * Math.PI, false);
         ctx.fill();
+        ctx.closePath();
+        
+        // head
+        ctx.beginPath();
+        ctx.arc(0, 0 - 35, 12, 0, 2 * Math.PI, false);
+        ctx.fill();
+        ctx.closePath();
+        
+        // mid static
+        ctx.beginPath();
+        ctx.arc(0, 0 + 10, 15, 0, 2 * Math.PI, false);
+        ctx.arc(sin * 2.5, 0 + 2, 17, 0, 2 * Math.PI, false);
+        ctx.fill();
+        ctx.closePath();
+        
+        // tail body
+        ctx.beginPath();
+        ctx.arc(cos * 6.5, 0 + 20, 13, 0, 2 * Math.PI, false);
+        ctx.arc(cos * 8.5, 0 + 25, 9, 0, 2 * Math.PI, false);
+        ctx.fill();
+        ctx.closePath();
+        ctx.beginPath();
+        ctx.arc(cos * 9.5, 0 + 30, 7, 0, 2 * Math.PI, false);
+        ctx.fill();
+        ctx.closePath();
+        
+        // tail
+        ctx.strokeStyle = "#7EAA92";
+        ctx.lineWidth = 7;
+        ctx.lineCap = "round";
+        ctx.beginPath();
+        ctx.moveTo(cos * 8.5, 0 + 23);
+        ctx.quadraticCurveTo(cos * 5.5, 25, cos * 28.5 + 4.0, 40 + (1.0 - sin) * 7.0);
+        ctx.moveTo(cos * 8.5, 0 + 23);
+        ctx.quadraticCurveTo(cos * 5.5, 25, cos * 20.5, 37 + (1.0 - sin) * 7.0);
+        ctx.stroke();
+        ctx.closePath();
 
         ctx.restore();
     }
