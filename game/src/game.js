@@ -32,8 +32,7 @@ class Game {
         if (this.input.key(Input.LEFT)) this.fish.turn(-.05);
         if (this.input.key(Input.RIGHT)) this.fish.turn(.05);
 
-        this.follower.target = this.fish.pos;
-        this.follow();
+        this.follower.follow(this.fish.pos);
 
         this.fish.update();
         this.follower.update();

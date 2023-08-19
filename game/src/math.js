@@ -9,32 +9,32 @@ class V2d {
         this.y = y;
     }
 
-    clone() {
-        return new V2d(this.x, this.y);
-    }
-
     add(other) {
-        this.x += other.x;
-        this.y += other.y;
-        return this;
+        let v = new V2d();
+        v.x = this.x + other.x;
+        v.y = this.y + other.y;
+        return v;
     }
 
     sub(other) {
-        this.x -= other.x;
-        this.y -= other.y;
-        return this;
+        let v = new V2d();
+        v.x = this.x - other.x;
+        v.y = this.y - other.y;
+        return v;
     }
 
     mulv(other) {
-        this.x *= other.x;
-        this.y *= other.y;
-        return this;
+        let v = new V2d();
+        v.x = this.x * other.x;
+        v.y = this.y * other.y;
+        return v;
     }
 
     muls(other) {
-        this.x *= other;
-        this.y *= other;
-        return this;
+        let v = new V2d();
+        v.x = this.x * other;
+        v.y = this.y * other;
+        return v;
     }
 
     length() {

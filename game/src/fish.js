@@ -4,13 +4,12 @@ class Fish {
         this.vel = new V2d(0, 0);
         this.spd = .1;
         this.rot = 0;
+        this.forward = new V2d(0, 0);
 
         this.color = "#7EAA92";
 
         this.cspeed = 0;
         this.cw = 0;
-
-        this.target = new V2d(0, 0);
 
         this.thrusting = false;
     }
@@ -86,16 +85,26 @@ class Fish {
         ctx.stroke();
         ctx.closePath();
 
+        // debug
+        ctx.strokeStyle = "#FF0000";
+        ctx.beginPath();
+        let point = this.pos;
+        ctx.lineTo(this.pos.x, this.pos.y, )
+        ctx.closePath();
+
         ctx.restore();
     }
 
-    follow() {
-        
+    follow(target) {
+
     }
 
     update() {
-        this.pos.add(this.vel);
-        this.vel.muls(.99);
+        this.forward = new V2d(0, 1);
+        this.forward.setAngle(0);
+
+        this.pos = this.pos.add(this.vel);
+        this.vel = this.vel.muls(.99);
 
         if (this.thrusting)
         {
@@ -113,8 +122,8 @@ class Fish {
     thurst(mul = 1.0) {
         let a = new V2d(1.0, 0.0);
         a.setAngle((this.rot - Math.PI / 2) + Math.sin(time() * 20) * Math.pow(this.cspeed, 2) * .2);
-        a.muls(this.spd * mul);
-        this.vel.add(a);
+        a = a.muls(this.spd * mul);
+        this.vel = this.vel.add(a);
         this.thrusting = true;
     }
 
