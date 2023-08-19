@@ -14,7 +14,6 @@ class Fish {
     render(ctx) {
         ctx.save();
         
-        ctx.scale(.9, .9);
         ctx.translate(this.pos.x, this.pos.y);
         ctx.rotate(this.rot);
 
@@ -48,13 +47,7 @@ class Fish {
         ctx.stroke();
         ctx.closePath();
 
-        
         // head
-        // ctx.beginPath();
-        // ctx.arc(0, -35, 13, 0, 2 * Math.PI, false);
-        // ctx.fill();
-        // ctx.closePath();
-
         ctx.beginPath();
         ctx.moveTo(-13, -25);
         ctx.quadraticCurveTo(cos * 4.5, -65 + sin * 2.0, 13, -25);
@@ -83,9 +76,9 @@ class Fish {
         // tail
         ctx.beginPath();
         ctx.moveTo(cos * 8.5, 0 + 23);
-        ctx.quadraticCurveTo(cos * 10.5, 25, cos * 28.5 + 4.0, 40 + (1.0 - sin) * 6.0);
+        ctx.quadraticCurveTo(cos * 10.5, 25, cos * 28.5 + 4.0, 42 + (1.0 - sin) * 6.0);
         ctx.moveTo(cos * 8.5, 0 + 23);
-        ctx.quadraticCurveTo(cos * 10.5, 25, cos * 20.5, 37 + (1.0 - sin) * 6.0);
+        ctx.quadraticCurveTo(cos * 10.5, 25, cos * 20.5, 39 + (1.0 - sin) * 6.0);
         ctx.stroke();
         ctx.closePath();
 
@@ -98,11 +91,12 @@ class Fish {
 
         if (this.thrusting)
         {
-            this.cspeed = Math.min(this.vel.length(), this.spd) / this.spd;
+            this.cspeed = Math.min(this.vel.length() * .3, this.spd) / this.spd;
         }
         else
         {
             this.cspeed *= .99;
+            this.cspeed = Math.max(this.cspeed, .2);
         }
 
         this.thrusting = false;
@@ -110,7 +104,7 @@ class Fish {
 
     thurst(mul = 1.0) {
         let a = new V2d(1.0, 0.0);
-        a.setAngle(this.rot - Math.PI / 2);
+        a.setAngle((this.rot - Math.PI / 2) + Math.sin(time() * 20) * Math.pow(this.cspeed, 2) * .2);
         a.muls(this.spd * mul);
         this.vel.add(a);
         this.thrusting = true;
@@ -118,7 +112,7 @@ class Fish {
 
     turn(val) {
         this.rot += val;
-        this.cspeed *= .92;
-        this.thurst(.4);
+        this.vel.muls(.965);
+        this.thurst(.2);
     }
 }

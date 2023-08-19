@@ -36,7 +36,17 @@ class Game {
         this.ctx.fillStyle = "#C8E4B2";
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
+        // entities
+
+        // camera
+        let scale = .4;
+        this.ctx.save();
+        this.ctx.scale(scale, scale);
+
+        // player
         this.fish.render(this.ctx);
+
+        this.ctx.restore();
     }
 }
 
