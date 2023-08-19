@@ -1,3 +1,6 @@
+const FISHES = 50;
+let scale = .4;
+
 class Game {
     constructor() {
         // Get DOM stuff
@@ -11,9 +14,13 @@ class Game {
         this.fish = new Fish();
         this.fish.pos.set(100, 100);
 
-        this.follower = new Fish();
-        this.follower.color = "#52B69A";
-        this.follower.pos.set(200, 200);
+        this.followers = [];
+        for (let f = 0; f < FISHES; f++) 
+        {
+            this.followers[f] = new Fish();
+            this.followers[f].color = "#7EAA92";
+            this.followers[f].pos.set(Math.random() * (this.canvas.width / scale), Math.random() * (this.canvas.height / scale));
+        }
 
         // Main loop
         window.requestAnimationFrame(this.update.bind(this));
@@ -32,10 +39,13 @@ class Game {
         if (this.input.key(Input.LEFT)) this.fish.turn(-.05);
         if (this.input.key(Input.RIGHT)) this.fish.turn(.05);
 
-        this.follower.follow(this.fish.pos);
-
         this.fish.update();
-        this.follower.update();
+
+        for (let f in this.followers) 
+        {
+            this.followers[f].follow(this.fish.pos);
+            this.followers[f].update();
+        }
     }
     
     update_render() {
@@ -46,7 +56,6 @@ class Game {
         // entities
 
         // camera
-        let scale = .4;
         this.ctx.save();
         this.ctx.scale(scale, scale);
 
@@ -54,7 +63,10 @@ class Game {
         this.fish.render(this.ctx);
 
         // follower
-        this.follower.render(this.ctx);
+        for (let f in this.followers) 
+        {
+            this.followers[f].render(this.ctx);
+        }
 
         this.ctx.restore();
     }

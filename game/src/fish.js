@@ -5,8 +5,9 @@ class Fish {
         this.spd = .1;
         this.rot = 0;
         this.forward = new V2d(0, 0);
+        this.time_offset = Math.random() * 20;
 
-        this.color = "#7EAA92";
+        this.color = "#52B69A";
 
         this.cspeed = 0;
         this.cw = 0;
@@ -24,8 +25,8 @@ class Fish {
 
         let speed = 15;
 
-        let sin = Math.sin(time() * speed) * Math.pow(this.cspeed, 2);
-        let cos = Math.cos(time() * speed) * Math.pow(this.cspeed, 2);
+        let sin = Math.sin((time() + this.time_offset) * speed) * Math.pow(this.cspeed, 2);
+        let cos = Math.cos((time() + this.time_offset) * speed) * Math.pow(this.cspeed, 2);
 
         ctx.fillStyle = this.color;
         ctx.strokeStyle = this.color;
