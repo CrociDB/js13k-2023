@@ -11,6 +11,10 @@ class Game {
         this.fish = new Fish();
         this.fish.pos.set(100, 100);
 
+        this.follower = new Fish();
+        this.follower.color = "#52B69A";
+        this.follower.pos.set(200, 200);
+
         // Main loop
         window.requestAnimationFrame(this.update.bind(this));
     }
@@ -28,7 +32,11 @@ class Game {
         if (this.input.key(Input.LEFT)) this.fish.turn(-.05);
         if (this.input.key(Input.RIGHT)) this.fish.turn(.05);
 
+        this.follower.target = this.fish.pos;
+        this.follow();
+
         this.fish.update();
+        this.follower.update();
     }
     
     update_render() {
@@ -45,6 +53,9 @@ class Game {
 
         // player
         this.fish.render(this.ctx);
+
+        // follower
+        this.follower.render(this.ctx);
 
         this.ctx.restore();
     }

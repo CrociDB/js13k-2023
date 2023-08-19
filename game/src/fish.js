@@ -5,8 +5,12 @@ class Fish {
         this.spd = .1;
         this.rot = 0;
 
+        this.color = "#7EAA92";
+
         this.cspeed = 0;
         this.cw = 0;
+
+        this.target = new V2d(0, 0);
 
         this.thrusting = false;
     }
@@ -22,8 +26,8 @@ class Fish {
         let sin = Math.sin(time() * speed) * Math.pow(this.cspeed, 2);
         let cos = Math.cos(time() * speed) * Math.pow(this.cspeed, 2);
 
-        ctx.fillStyle = "#7EAA92";
-        ctx.strokeStyle = "#7EAA92";
+        ctx.fillStyle = this.color;
+        ctx.strokeStyle = this.color;
         ctx.lineWidth = 7;
         ctx.lineCap = "round";
 
@@ -83,6 +87,10 @@ class Fish {
         ctx.closePath();
 
         ctx.restore();
+    }
+
+    follow() {
+        
     }
 
     update() {
