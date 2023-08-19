@@ -11,6 +11,8 @@ class Fish {
         this.cspeed = 0;
         this.cw = 0;
 
+        this.direction = null;
+
         this.thrusting = false;
     }
 
@@ -84,24 +86,63 @@ class Fish {
         ctx.quadraticCurveTo(cos * 10.5, 25, cos * 20.5, 39 + (1.0 - sin) * 6.0);
         ctx.stroke();
         ctx.closePath();
+        
+        ctx.restore();
 
         // debug
-        ctx.strokeStyle = "#FF0000";
-        ctx.beginPath();
-        let point = this.pos;
-        ctx.lineTo(this.pos.x, this.pos.y, )
-        ctx.closePath();
-
-        ctx.restore();
+        if (false)
+        {
+            ctx.strokeStyle = "#FF0000";
+            ctx.beginPath();
+            let point = this.pos.add(this.forward.muls(80));
+            ctx.moveTo(this.pos.x, this.pos.y);
+            ctx.lineTo(point.x, point.y);
+            ctx.stroke();
+            ctx.closePath();
+            
+            if (this.direction != null) 
+            {
+                ctx.strokeStyle = "#FF00FF";
+                ctx.beginPath();
+                let point = this.pos.add(this.direction.muls(80));
+                ctx.moveTo(this.pos.x, this.pos.y);
+                ctx.lineTo(point.x, point.y);
+                ctx.stroke();
+                ctx.closePath();
+            }
+        }
     }
 
     follow(target) {
+        let delta = target.sub(this.pos);
+        this.direction = delta.normalize();
+
+        let dirangle = Math.atan2(delta.y, delta.x);
+        let myangle = this.rot - Math.PI / 2;
+
+        let dist = delta.length();
+        if (dist > 40)
+        {
+            this.thurst(Math.min(dist / 30) / 30);
+
+            if (Math.abs(dirangle - myangle) > .1)
+            {
+                if (dirangle > myangle) 
+                {
+                    this.turn(0.05);
+                }
+                else
+                {
+                    this.turn(-0.05);
+                }
+            }
+        }
 
     }
 
     update() {
         this.forward = new V2d(0, 1);
-        this.forward.setAngle(0);
+        this.forward.setAngle(this.rot - Math.PI / 2);
 
         this.pos = this.pos.add(this.vel);
         this.vel = this.vel.muls(.99);
@@ -129,7 +170,7 @@ class Fish {
 
     turn(val) {
         this.rot += val;
-        this.vel.muls(.965);
+        this.vel = this.vel.muls(.965);
         this.thurst(.2);
     }
 }
