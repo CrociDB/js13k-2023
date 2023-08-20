@@ -193,11 +193,11 @@ class Fish {
 
         if (this.thrusting)
         {
-            this.cspeed = Math.min(this.vel.length() * .3, this.spd) / this.spd;
+            this.cspeed = Math.min(this.vel.length() * .3, this.spd/2) / (this.spd/2);
         }
         else
         {
-            this.cspeed *= .99;
+            this.cspeed *= .98;
             this.cspeed = Math.max(this.cspeed, .2);
         }
 
