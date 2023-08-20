@@ -39,12 +39,12 @@ class Game {
         if (this.input.key(Input.LEFT)) this.fish.turn(-.05);
         if (this.input.key(Input.RIGHT)) this.fish.turn(.05);
 
-        this.fish.update();
+        this.fish.update(this.followers, 2);
 
         for (let f in this.followers) 
         {
-            this.followers[f].follow(this.fish.pos);
-            this.followers[f].update();
+            this.followers[f].follow(this.fish.pos, this.followers);
+            this.followers[f].update(this.followers);
         }
     }
     

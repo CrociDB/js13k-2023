@@ -114,8 +114,13 @@ class Fish {
         }
     }
 
-    follow(target) {
-        let delta = target.sub(this.pos);
+    follow(target, fishlist) {
+        let [center, avoid] = this.center_avoidance(fishlist);
+
+        let t = target.muls(2).add(center).muls(.3).add(avoid);
+        
+        let delta = t.sub(this.pos);
+
         this.direction = delta.normalize();
 
         let dirangle = Math.atan2(delta.y, delta.x);
@@ -141,12 +146,50 @@ class Fish {
 
     }
 
-    update() {
+    center_avoidance(fishlist) {
+        let center = new V2d(0,0);
+        let avoidance = new V2d(0,0);
+
+        for (let f in fishlist) 
+        {
+            if (fishlist[f] == this) continue;
+
+            center = center.add(fishlist[f].pos);
+
+            let d = this.pos.dist(fishlist[f].pos);
+            if (d < 50)
+            {
+                avoidance = avoidance.sub(fishlist[f].pos.sub(this.pos));
+            }
+        }
+
+        center = center.muls(1 / (fishlist.length - 1));
+
+        return [center, avoidance];
+    }
+
+    update(fishlist, strength) {
         this.forward = new V2d(0, 1);
         this.forward.setAngle(this.rot - Math.PI / 2);
 
         this.pos = this.pos.add(this.vel);
         this.vel = this.vel.muls(.99);
+
+        if (fishlist != undefined) 
+        {
+            for (let f in fishlist) 
+            {
+                if (fishlist[f] == this) continue;
+    
+                let d = this.pos.dist(fishlist[f].pos);
+                if (d < 70)
+                {
+                    let s = (strength != undefined ? strength : .8);
+                    fishlist[f].vel = fishlist[f].vel.add(fishlist[f].pos.sub(this.pos).normalize().muls(s));
+                    break;
+                }
+            }
+        }
 
         if (this.thrusting)
         {
@@ -161,12 +204,16 @@ class Fish {
         this.thrusting = false;
     }
 
-    thurst(mul = 1.0) {
+    thurst(mul = 1.0, fishlist) {
         let a = new V2d(1.0, 0.0);
         a.setAngle((this.rot - Math.PI / 2) + Math.sin(time() * 20) * Math.pow(this.cspeed, 2) * .2);
         a = a.muls(this.spd * mul);
         this.vel = this.vel.add(a);
         this.thrusting = true;
+    }
+
+    descelerate(mul) {
+        this.vel = this.vel.muls(mul);
     }
 
     turn(val) {

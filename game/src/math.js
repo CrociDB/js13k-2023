@@ -41,6 +41,15 @@ class V2d {
         return Math.sqrt(this.x * this.x + this.y * this.y);
     }
 
+    dist(other) {
+        return Math.abs(this.sub(other).length());
+    }
+
+    opp(other) {
+        let delta = this.sub(other);
+        return this.add(delta);
+    }
+
     normalize() {
         let v = new V2d();
         let l = this.length();
