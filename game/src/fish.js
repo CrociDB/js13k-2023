@@ -117,7 +117,8 @@ class Fish {
     follow(target, fishlist) {
         let [center, avoid] = this.center_avoidance(fishlist);
 
-        let t = target.muls(2).add(center).muls(.3).add(avoid);
+        center = (center.x == center.y && center.x == 0) ? target : center;
+        let t = target.muls(2).add(center).muls(.3333).add(avoid);
         
         let delta = t.sub(this.pos);
 
@@ -148,22 +149,28 @@ class Fish {
 
     center_avoidance(fishlist) {
         let center = new V2d(0,0);
+        let center_count = 0;
         let avoidance = new V2d(0,0);
 
         for (let f in fishlist) 
         {
             if (fishlist[f] == this) continue;
-
-            center = center.add(fishlist[f].pos);
-
             let d = this.pos.dist(fishlist[f].pos);
+
+            if (d < 100)
+            {
+                center = center.add(fishlist[f].pos);
+                center_count++;
+            }
+
             if (d < 50)
             {
                 avoidance = avoidance.sub(fishlist[f].pos.sub(this.pos));
             }
         }
 
-        center = center.muls(1 / (fishlist.length - 1));
+        if (center_count > 0)
+            center = center.muls(1 / center_count);
 
         return [center, avoidance];
     }
