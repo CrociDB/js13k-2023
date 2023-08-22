@@ -118,7 +118,12 @@ class Fish {
         let [center, avoid] = this.center_avoidance(fishlist);
 
         center = (center.x == center.y && center.x == 0) ? target : center;
-        let t = target.muls(2).add(center).muls(.3333).add(avoid);
+
+        let t = center.add(avoid);
+        if (this.pos.dist(target) < 1200)
+        {
+            t = target.muls(2).add(center).muls(.3333).add(avoid);
+        }
         
         let delta = t.sub(this.pos);
 
@@ -157,7 +162,7 @@ class Fish {
             if (fishlist[f] == this) continue;
             let d = this.pos.dist(fishlist[f].pos);
 
-            if (d < 100)
+            if (d < 600)
             {
                 center = center.add(fishlist[f].pos);
                 center_count++;

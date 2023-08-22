@@ -1,4 +1,4 @@
-const FISHES = 100;
+const FISHES = 150;
 let scale = .4;
 
 class Game {
@@ -34,12 +34,12 @@ class Game {
     }
 
     update_logic() {
-        if (this.input.key(Input.UP)) this.fish.thurst(2);
+        if (this.input.key(Input.UP)) this.fish.thurst(3);
         if (this.input.key(Input.DOWN)) console.log("DOWN");
         if (this.input.key(Input.LEFT)) this.fish.turn(-.05);
         if (this.input.key(Input.RIGHT)) this.fish.turn(.05);
 
-        this.fish.update(this.followers, 2);
+        this.fish.update(this.followers, 4);
 
         for (let f in this.followers) 
         {
