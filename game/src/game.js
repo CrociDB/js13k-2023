@@ -1,4 +1,4 @@
-const FISHES = 150;
+const FISHES = 300;
 
 class Game {
     constructor() {

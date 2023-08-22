@@ -89,29 +89,6 @@ class Fish {
         ctx.closePath();
         
         ctx.restore();
-
-        // debug
-        if (false)
-        {
-            ctx.strokeStyle = "#FF0000";
-            ctx.beginPath();
-            let point = this.pos.add(this.forward.muls(80));
-            ctx.moveTo(this.pos.x, this.pos.y);
-            ctx.lineTo(point.x, point.y);
-            ctx.stroke();
-            ctx.closePath();
-            
-            if (this.direction != null) 
-            {
-                ctx.strokeStyle = "#FF00FF";
-                ctx.beginPath();
-                let point = this.pos.add(this.direction.muls(80));
-                ctx.moveTo(this.pos.x, this.pos.y);
-                ctx.lineTo(point.x, point.y);
-                ctx.stroke();
-                ctx.closePath();
-            }
-        }
     }
 
     follow(target, fishlist) {
@@ -120,7 +97,7 @@ class Fish {
         center = (center.x == center.y && center.x == 0) ? target : center;
 
         let t = center.add(avoid);
-        if (this.pos.dist(target) < 1200)
+        if (this.pos.dist(target) < 3000)
         {
             t = target.muls(2).add(center).muls(.3333).add(avoid);
         }
