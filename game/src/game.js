@@ -1,5 +1,4 @@
 const FISHES = 150;
-let scale = .4;
 
 class Game {
     constructor() {
@@ -10,11 +9,15 @@ class Game {
         // Create game components
         this.input = new Input(this.canvas);
 
+        // Camera
+        this.camera = new Camera(0, 0, 2, this.canvas.width / 2, this.canvas.height / 2);
+
         // Fish!
         this.fish = new Fish();
-        this.fish.pos.set(100, 100);
+        this.fish.pos.set(0, 0);
 
         this.followers = [];
+        let scale = 1 / this.camera.dist;
         for (let f = 0; f < FISHES; f++) 
         {
             this.followers[f] = new Fish();
@@ -39,6 +42,9 @@ class Game {
         if (this.input.key(Input.LEFT)) this.fish.turn(-.05);
         if (this.input.key(Input.RIGHT)) this.fish.turn(.05);
 
+        if (this.input.key(65)) this.camera.dist += .03;
+        if (this.input.key(83)) this.camera.dist -= .03;
+
         this.fish.update(this.followers, 4);
 
         for (let f in this.followers) 
@@ -46,6 +52,8 @@ class Game {
             this.followers[f].follow(this.fish.pos, this.followers);
             this.followers[f].update(this.followers);
         }
+
+        this.camera.follow(this.fish.pos);
     }
     
     update_render() {
@@ -57,7 +65,7 @@ class Game {
 
         // camera
         this.ctx.save();
-        this.ctx.scale(scale, scale);
+        this.camera.update(this.ctx);
 
         // player
         this.fish.render(this.ctx);
